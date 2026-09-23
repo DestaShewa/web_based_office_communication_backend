@@ -1,90 +1,492 @@
-# 🎨 WBOCS Frontend Client
+# WBOCS Backend API
 
-The frontend client for the **Web-Based Office Communication System (AMITCS)**, built with React 19, Vite 8, and Tailwind CSS v4.
+Backend API for the **Web-Based Office Communication System (WBOCS)**, providing authentication, role-based authorization, institutional organization management, electronic memos, tasks, announcements, meetings, real-time messaging, audit logging, and other core business services.
 
----
-
-## ⚡ Tech Stack
-
-- **Framework**: [React 19](https://react.dev/) + [Vite 8](https://vitejs.dev/)
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
-- **UI Components**: [Radix UI Primitives](https://www.radix-ui.com/) & [Lucide React Icons](https://lucide.dev/)
-- **Server State & Caching**: [TanStack React Query v5](https://tanstack.com/query)
-- **Client State**: [Zustand v5](https://zustand-demo.pmnd.rs/)
-- **Routing**: [React Router v7](https://reactrouter.com/) (Role-protected nested layouts)
-- **Real-Time Client**: [Socket.io Client v4](https://socket.io/)
-- **Toast Notifications**: [Sonner](https://sonner.emilkowal.ski/)
-- **HTTP Client**: [Axios](https://axios-http.com/)
+This repository contains **only the backend API and server-side services**. The frontend application is maintained separately.
 
 ---
 
-## 📁 Architecture & Features
+## 🚀 Overview
 
-The frontend follows a domain-driven **feature-based architecture**:
+WBOCS is an institutional communication and workflow platform designed around the organizational hierarchy:
 
+**Institute → Faculty → Department → Office → Staff**
+
+The backend provides the APIs, authentication, authorization, business logic, database access, real-time communication, and security infrastructure required by the WBOCS frontend.
+
+---
+
+## ✨ Core Features
+
+### 🔐 Authentication & Authorization
+
+* User authentication
+* JWT-based authentication
+* Secure cookie-based sessions
+* Password reset and recovery
+* Role-based access control
+* Protected API endpoints
+* Permission enforcement
+
+### 👥 User & Role Management
+
+* User management
+* Role assignment
+* Staff directory
+* Avatar management
+* Institutional organizational relationships
+
+Supported roles include:
+
+* Admin
+* Director
+* Dean
+* Coordinator
+* Staff
+
+### 🏢 Organization Management
+
+The API supports hierarchical institutional structures:
+
+```text
+Institute
+   │
+   ├── Faculties
+   │      │
+   │      └── Departments
+   │              │
+   │              └── Offices
+   │
+   └── Administrative Offices
 ```
-frontend/src/
-├── components/          # Shared atomic components (Button, Modal, ProtectedRoute, etc.)
-├── features/            # Modular feature domains
-│   ├── announcements/   # Announcements board, targeting dialogs, reader tracking
-│   ├── audit/           # Admin security audit logs table with search & filters
-│   ├── auth/            # Login, password reset, session recovery
-│   ├── dashboard/       # Role-specific overviews (Admin, Director, Dean, Coordinator, Staff)
-│   ├── departments/     # Department listing & management
-│   ├── faculties/       # Faculty listing & management
-│   ├── institutes/      # Institute listing & management
-│   ├── meetings/        # Meeting scheduler, attendee picks, agenda details
-│   ├── memos/           # Official Electronic Memo Portal, dispatch & status lifecycles
-│   ├── messages/        # Real-time chat with presence, typing indicators, read receipts
-│   ├── offices/         # Administrative offices directory
-│   ├── settings/        # System configuration & personal profile settings
-│   ├── tasks/           # Task delegation boards with priority badges & due dates
-│   └── users/           # Staff directory, avatar uploads, role administration
-├── layouts/             # Role-based container layouts (AdminLayout, StaffLayout, etc.)
-├── lib/                 # Axios configuration, queryClient instances
-├── routes/              # Centralized route definitions & navigation guards
-└── store/               # Global Zustand stores (AuthStore, SocketStore)
+
+### 📝 Electronic Memo System
+
+* Memo creation
+* Memo dispatch
+* Recipient management
+* CC recipients
+* Attachments
+* Memo lifecycle/status tracking
+* Action tracking
+* Hierarchical routing
+
+### 💬 Real-Time Messaging
+
+Powered by Socket.io:
+
+* Real-time messages
+* Online presence
+* Typing indicators
+* Read receipts
+* Real-time communication events
+
+### 📋 Task Management
+
+* Task creation
+* Task delegation
+* Priority management
+* Due dates
+* Status tracking
+* Reassignment
+* Activity/audit tracking
+
+### 📢 Announcements
+
+Supports targeted announcements for:
+
+* Institution
+* Faculty
+* Department
+
+Includes announcement lifecycle and reader tracking.
+
+### 📅 Meetings
+
+* Meeting creation
+* Scheduling
+* Agenda management
+* Attendee selection
+* Meeting status
+
+### 🔎 Audit Logging
+
+Administrative activities can be tracked through audit records for improved accountability and system monitoring.
+
+---
+
+## 🛠️ Technology Stack
+
+| Technology      | Purpose                 |
+| --------------- | ----------------------- |
+| Node.js         | Runtime                 |
+| Express 5       | Backend framework       |
+| MongoDB         | Database                |
+| Mongoose 9      | ODM                     |
+| Socket.io       | Real-time communication |
+| JWT             | Authentication          |
+| Helmet          | Security headers        |
+| Rate Limiting   | Request protection      |
+| Swagger/OpenAPI | API documentation       |
+| Vitest          | Testing                 |
+| JavaScript      | Application language    |
+
+---
+
+## 📁 Project Structure
+
+```text
+backend/
+├── src/
+│   ├── controllers/      # Request handling
+│   ├── models/           # Mongoose models
+│   ├── routes/           # API routes
+│   ├── services/         # Business logic
+│   ├── middleware/       # Authentication, validation, security
+│   ├── sockets/          # Socket.io functionality
+│   ├── utils/            # Shared utilities
+│   ├── config/           # Application configuration
+│   └── app.js            # Express application
+├── tests/                # Automated tests
+├── seeders/              # Database seed data
+├── .env
+├── package.json
+└── README.md
 ```
+
+> Adjust the structure above if your actual backend folder structure differs.
+
+---
+
+## ⚙️ Requirements
+
+Before running the backend, install:
+
+* Node.js 20+
+* npm
+* MongoDB
+* Git
 
 ---
 
 ## 🚀 Getting Started
 
-### 1. Install Dependencies
+### 1. Clone the repository
+
+```bash
+git clone <YOUR_BACKEND_REPOSITORY_URL>
+cd backend
+```
+
+### 2. Install dependencies
+
 ```bash
 npm install
 ```
 
-### 2. Configure Environment
-Create a `.env` file in the `frontend/` directory:
+### 3. Configure environment variables
+
+Create a `.env` file:
+
 ```env
-VITE_API_URL=http://localhost:5000/api/v1
-VITE_SOCKET_URL=http://localhost:5000
+PORT=5000
+NODE_ENV=development
+
+MONGODB_URI=mongodb://localhost:27017/wbocs
+
+JWT_SECRET=your_secure_jwt_secret
+
+FRONTEND_URL=http://localhost:5173
+
+SOCKET_CORS_ORIGIN=http://localhost:5173
 ```
 
-### 3. Start Development Server
+Use your actual project configuration and never commit secrets to Git.
+
+---
+
+## 🗄️ Database Setup
+
+Make sure MongoDB is running.
+
+Then run the project-specific database seed command if available:
+
+```bash
+npm run seed
+```
+
+The seed process can initialize:
+
+* Administrative users
+* Institutional structure
+* Roles
+* Initial system data
+
+> Change the command above if your actual `package.json` uses a different seed script.
+
+---
+
+## ▶️ Running the Server
+
+### Development
+
 ```bash
 npm run dev
 ```
 
-The application will run locally at `http://localhost:5173`.
+### Production
+
+```bash
+npm start
+```
+
+The API will normally run at:
+
+```text
+http://localhost:5000
+```
 
 ---
 
-## 🛠️ Available Scripts
+## 📚 API Documentation
 
-- `npm run dev`: Starts the Vite development server with Hot Module Replacement (HMR).
-- `npm run build`: Compiles and bundles production-ready assets into `dist/`.
-- `npm run preview`: Locally previews the production build.
-- `npm run lint`: Runs ESLint across all `.js` and `.jsx` files.
+Interactive API documentation is available through Swagger/OpenAPI:
+
+```text
+http://localhost:5000/api-docs
+```
+
+The Swagger interface provides:
+
+* Available endpoints
+* Request parameters
+* Request bodies
+* Authentication requirements
+* Response schemas
+* API testing
 
 ---
 
-## 🔒 Role-Based Routing
+## 🔗 API Structure
 
-The router automatically guards routes based on authenticated user roles:
-- `/admin/*`: Administrator operations (User management, organization units, audit logs, system settings)
-- `/director/*`: Institutional leadership dashboard, memo portal, meetings, broadcasts
-- `/dean/*`: Faculty-level dashboard, department coordination, memo portal, meetings
-- `/coordinator/*`: Departmental task delegation, meetings, announcements, memo portal
-- `/staff/*`: Assigned tasks, department communications, institutional announcements
+The API is versioned under:
+
+```text
+/api/v1
+```
+
+Example structure:
+
+```text
+/api/v1
+├── /auth
+├── /users
+├── /institutes
+├── /faculties
+├── /departments
+├── /offices
+├── /memos
+├── /messages
+├── /tasks
+├── /announcements
+├── /meetings
+├── /audit
+└── /settings
+```
+
+The exact available endpoints are documented through Swagger.
+
+---
+
+## 🔐 Security
+
+The backend follows a defense-in-depth approach including:
+
+* JWT authentication
+* Secure cookie handling
+* Role-based authorization
+* Helmet security headers
+* Rate limiting
+* Input validation
+* XSS protection
+* NoSQL injection protection
+* Authentication middleware
+* Authorization middleware
+* Audit logging
+* Controlled CORS configuration
+
+Sensitive configuration values must be stored in environment variables.
+
+---
+
+## 🔑 Role-Based Access Control
+
+The backend enforces permissions according to institutional roles.
+
+| Role        | Scope                           |
+| ----------- | ------------------------------- |
+| Admin       | System-wide administration      |
+| Director    | Institutional operations        |
+| Dean        | Faculty-level operations        |
+| Coordinator | Department-level operations     |
+| Staff       | Assigned operational activities |
+
+The backend is the final authority for authorization; frontend route protection does not replace server-side permission checks.
+
+---
+
+## 🔄 Real-Time Communication
+
+Socket.io provides real-time functionality for features such as:
+
+```text
+Client
+   │
+   │ Socket.io
+   ▼
+WBOCS Server
+   │
+   ├── Messages
+   ├── Presence
+   ├── Typing Status
+   └── Read Receipts
+```
+
+---
+
+## 🧪 Testing
+
+Run the test suite with:
+
+```bash
+npm test
+```
+
+For watch mode, if configured:
+
+```bash
+npm run test:watch
+```
+
+Testing is implemented using **Vitest**.
+
+---
+
+## 🧹 Code Quality
+
+Recommended development checks:
+
+```bash
+npm run lint
+```
+
+Before creating a pull request:
+
+```bash
+npm run lint
+npm test
+npm run build
+```
+
+Use the commands that are actually defined in `package.json`.
+
+---
+
+## 🌍 Environment Configuration
+
+Important environment variables include:
+
+| Variable             | Purpose                  |
+| -------------------- | ------------------------ |
+| `PORT`               | Server port              |
+| `NODE_ENV`           | Application environment  |
+| `MONGODB_URI`        | MongoDB connection       |
+| `JWT_SECRET`         | Authentication secret    |
+| `FRONTEND_URL`       | Frontend origin          |
+| `SOCKET_CORS_ORIGIN` | Socket.io allowed origin |
+
+Never commit:
+
+```text
+.env
+.env.local
+.env.production
+```
+
+to the repository.
+
+---
+
+## 🔗 Frontend
+
+The WBOCS frontend is maintained in a separate repository.
+
+Frontend repository:
+
+**[Add your frontend GitHub repository URL here]**
+
+The frontend communicates with this backend through:
+
+```text
+REST API
+Socket.io
+```
+
+---
+
+## 🏗️ System Architecture
+
+```text
+                    ┌──────────────────┐
+                    │  WBOCS Frontend  │
+                    │ React + Vite     │
+                    └────────┬─────────┘
+                             │
+                    REST API / Socket.io
+                             │
+                             ▼
+              ┌──────────────────────────┐
+              │      Express Server      │
+              ├──────────────────────────┤
+              │ Authentication           │
+              │ Authorization / RBAC      │
+              │ Business Logic            │
+              │ Validation                │
+              │ Security Middleware       │
+              │ REST API                  │
+              │ Socket.io                 │
+              └────────────┬─────────────┘
+                           │
+                           ▼
+                 ┌──────────────────┐
+                 │     MongoDB      │
+                 │                  │
+                 │ Users            │
+                 │ Memos            │
+                 │ Tasks            │
+                 │ Messages         │
+                 │ Meetings         │
+                 │ Announcements    │
+                 │ Audit Logs       │
+                 └──────────────────┘
+```
+
+---
+
+## 📌 Project Status
+
+**Status:** Active Development
+
+The backend is being developed as the API and server-side foundation of the WBOCS institutional communication and workflow platform.
+
+---
+
+## 👨‍💻 Development
+
+Built as part of the **Arba Minch Institute of Technology Communication System (AMITCS / WBOCS)**.
+
+---
+
+## 📄 License
+
+Add the project's license here when one is selected.
