@@ -1,0 +1,2 @@
+2026-08-20 13:47:07:477 [31merror[39m: [31mError Seeding Database: Department validation failed: faculty: Department must belong to a faculty[39m
+2026-08-20 15:41:22:4122 [31merror[39m: [31m400 - No changes detected. The provided values are identical to the current data. - /api/v1/users/update-me - PATCH - 127.0.0.1[39m
