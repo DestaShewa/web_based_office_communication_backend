@@ -805,5 +805,5 @@ If the project will be distributed publicly, add the appropriate `LICENSE` file 
 
 **API Documentation:** `http://localhost:5000/api-docs` (local development)
 
-**Live Demo:** `<ADD_DEPLOYMENT_URL_IF_AVAILABLE>`
+**Live Demo:** `https://web-based-office-communication-fron.vercel.app/login`
 
