@@ -801,9 +801,9 @@ If the project will be distributed publicly, add the appropriate `LICENSE` file 
 
 ## 🔗 Related
 
-**Frontend:** `<YOUR_FRONTEND_REPOSITORY_URL>`
+**Frontend:** https://github.com/DestaShewa/web_based_office_communication_frontend
 
-**API Documentation:** `http://localhost:5000/api-docs` (local development)
+**API Documentation:** `http://localhost:5000/api-docs`
 
 **Live Demo:** [Open WBOCS](https://web-based-office-communication-fron.vercel.app/)
 
